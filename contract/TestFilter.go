@@ -27,7 +27,7 @@ var (
 )
 
 // TestFilterABI is the input ABI used to generate the binding from.
-const TestFilterABI = "[{\"constant\":false,\"inputs\":[],\"name\":\"getName\",\"outputs\":[{\"name\":\"\",\"type\":\"string\"}],\"payable\":true,\"stateMutability\":\"payable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[],\"name\":\"getAge\",\"outputs\":[{\"name\":\"\",\"type\":\"uint256\"}],\"payable\":true,\"stateMutability\":\"payable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"_name\",\"type\":\"string\"}],\"name\":\"setName\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"_age\",\"type\":\"uint256\"}],\"name\":\"setAge\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"name\":\"name_\",\"type\":\"string\"},{\"name\":\"age_\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"constructor\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"name\":\"oldName\",\"type\":\"string\"},{\"indexed\":false,\"name\":\"newName\",\"type\":\"string\"},{\"indexed\":false,\"name\":\"timestamp\",\"type\":\"uint256\"}],\"name\":\"TestSetName\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"name\":\"oldAge\",\"type\":\"uint256\"},{\"indexed\":false,\"name\":\"newAge\",\"type\":\"uint256\"},{\"indexed\":false,\"name\":\"timestamp\",\"type\":\"uint256\"}],\"name\":\"TestSetAge\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"name\":\"funcName\",\"type\":\"string\"},{\"indexed\":false,\"name\":\"blockNumber\",\"type\":\"uint256\"}],\"name\":\"TestGetName\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"name\":\"funcName\",\"type\":\"string\"},{\"indexed\":false,\"name\":\"blockNumber\",\"type\":\"uint256\"}],\"name\":\"TestGetAge\",\"type\":\"event\"}]"
+const TestFilterABI = "[{\"inputs\":[{\"internalType\":\"string\",\"name\":\"name_\",\"type\":\"string\"},{\"internalType\":\"uint256\",\"name\":\"age_\",\"type\":\"uint256\"}],\"stateMutability\":\"nonpayable\",\"type\":\"constructor\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"string\",\"name\":\"funcName\",\"type\":\"string\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"blockNumber\",\"type\":\"uint256\"}],\"name\":\"TestGetAge\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"string\",\"name\":\"funcName\",\"type\":\"string\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"blockNumber\",\"type\":\"uint256\"}],\"name\":\"TestGetName\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"uint256\",\"name\":\"oldAge\",\"type\":\"uint256\"},{\"indexed\":true,\"internalType\":\"uint256\",\"name\":\"newAge\",\"type\":\"uint256\"},{\"indexed\":true,\"internalType\":\"uint256\",\"name\":\"timestamp\",\"type\":\"uint256\"}],\"name\":\"TestSetAge\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"string\",\"name\":\"oldName\",\"type\":\"string\"},{\"indexed\":true,\"internalType\":\"string\",\"name\":\"newName\",\"type\":\"string\"},{\"indexed\":true,\"internalType\":\"uint256\",\"name\":\"timestamp\",\"type\":\"uint256\"}],\"name\":\"TestSetName\",\"type\":\"event\"},{\"inputs\":[],\"name\":\"getAge\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"payable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"getName\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"_age\",\"type\":\"uint256\"}],\"name\":\"setAge\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"string\",\"name\":\"_name\",\"type\":\"string\"}],\"name\":\"setName\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"}]"
 
 // TestFilter is an auto generated Go binding around an Ethereum contract.
 type TestFilter struct {
@@ -194,21 +194,21 @@ func (_TestFilter *TestFilterTransactorSession) GetAge() (*types.Transaction, er
 
 // GetName is a paid mutator transaction binding the contract method 0x17d7de7c.
 //
-// Solidity: function getName() payable returns(string)
+// Solidity: function getName() returns()
 func (_TestFilter *TestFilterTransactor) GetName(opts *bind.TransactOpts) (*types.Transaction, error) {
 	return _TestFilter.contract.Transact(opts, "getName")
 }
 
 // GetName is a paid mutator transaction binding the contract method 0x17d7de7c.
 //
-// Solidity: function getName() payable returns(string)
+// Solidity: function getName() returns()
 func (_TestFilter *TestFilterSession) GetName() (*types.Transaction, error) {
 	return _TestFilter.Contract.GetName(&_TestFilter.TransactOpts)
 }
 
 // GetName is a paid mutator transaction binding the contract method 0x17d7de7c.
 //
-// Solidity: function getName() payable returns(string)
+// Solidity: function getName() returns()
 func (_TestFilter *TestFilterTransactorSession) GetName() (*types.Transaction, error) {
 	return _TestFilter.Contract.GetName(&_TestFilter.TransactOpts)
 }
@@ -602,10 +602,23 @@ type TestFilterTestSetAge struct {
 
 // FilterTestSetAge is a free log retrieval operation binding the contract event 0xf9905ed439c974a0f8c3a6dceec1e59ff1282efae84554b2e43ace1c0213b566.
 //
-// Solidity: event TestSetAge(uint256 oldAge, uint256 newAge, uint256 timestamp)
-func (_TestFilter *TestFilterFilterer) FilterTestSetAge(opts *bind.FilterOpts) (*TestFilterTestSetAgeIterator, error) {
+// Solidity: event TestSetAge(uint256 indexed oldAge, uint256 indexed newAge, uint256 indexed timestamp)
+func (_TestFilter *TestFilterFilterer) FilterTestSetAge(opts *bind.FilterOpts, oldAge []*big.Int, newAge []*big.Int, timestamp []*big.Int) (*TestFilterTestSetAgeIterator, error) {
 
-	logs, sub, err := _TestFilter.contract.FilterLogs(opts, "TestSetAge")
+	var oldAgeRule []interface{}
+	for _, oldAgeItem := range oldAge {
+		oldAgeRule = append(oldAgeRule, oldAgeItem)
+	}
+	var newAgeRule []interface{}
+	for _, newAgeItem := range newAge {
+		newAgeRule = append(newAgeRule, newAgeItem)
+	}
+	var timestampRule []interface{}
+	for _, timestampItem := range timestamp {
+		timestampRule = append(timestampRule, timestampItem)
+	}
+
+	logs, sub, err := _TestFilter.contract.FilterLogs(opts, "TestSetAge", oldAgeRule, newAgeRule, timestampRule)
 	if err != nil {
 		return nil, err
 	}
@@ -614,10 +627,23 @@ func (_TestFilter *TestFilterFilterer) FilterTestSetAge(opts *bind.FilterOpts) (
 
 // WatchTestSetAge is a free log subscription operation binding the contract event 0xf9905ed439c974a0f8c3a6dceec1e59ff1282efae84554b2e43ace1c0213b566.
 //
-// Solidity: event TestSetAge(uint256 oldAge, uint256 newAge, uint256 timestamp)
-func (_TestFilter *TestFilterFilterer) WatchTestSetAge(opts *bind.WatchOpts, sink chan<- *TestFilterTestSetAge) (event.Subscription, error) {
+// Solidity: event TestSetAge(uint256 indexed oldAge, uint256 indexed newAge, uint256 indexed timestamp)
+func (_TestFilter *TestFilterFilterer) WatchTestSetAge(opts *bind.WatchOpts, sink chan<- *TestFilterTestSetAge, oldAge []*big.Int, newAge []*big.Int, timestamp []*big.Int) (event.Subscription, error) {
 
-	logs, sub, err := _TestFilter.contract.WatchLogs(opts, "TestSetAge")
+	var oldAgeRule []interface{}
+	for _, oldAgeItem := range oldAge {
+		oldAgeRule = append(oldAgeRule, oldAgeItem)
+	}
+	var newAgeRule []interface{}
+	for _, newAgeItem := range newAge {
+		newAgeRule = append(newAgeRule, newAgeItem)
+	}
+	var timestampRule []interface{}
+	for _, timestampItem := range timestamp {
+		timestampRule = append(timestampRule, timestampItem)
+	}
+
+	logs, sub, err := _TestFilter.contract.WatchLogs(opts, "TestSetAge", oldAgeRule, newAgeRule, timestampRule)
 	if err != nil {
 		return nil, err
 	}
@@ -651,7 +677,7 @@ func (_TestFilter *TestFilterFilterer) WatchTestSetAge(opts *bind.WatchOpts, sin
 
 // ParseTestSetAge is a log parse operation binding the contract event 0xf9905ed439c974a0f8c3a6dceec1e59ff1282efae84554b2e43ace1c0213b566.
 //
-// Solidity: event TestSetAge(uint256 oldAge, uint256 newAge, uint256 timestamp)
+// Solidity: event TestSetAge(uint256 indexed oldAge, uint256 indexed newAge, uint256 indexed timestamp)
 func (_TestFilter *TestFilterFilterer) ParseTestSetAge(log types.Log) (*TestFilterTestSetAge, error) {
 	event := new(TestFilterTestSetAge)
 	if err := _TestFilter.contract.UnpackLog(event, "TestSetAge", log); err != nil {
@@ -730,18 +756,31 @@ func (it *TestFilterTestSetNameIterator) Close() error {
 
 // TestFilterTestSetName represents a TestSetName event raised by the TestFilter contract.
 type TestFilterTestSetName struct {
-	OldName   string
-	NewName   string
+	OldName   common.Hash
+	NewName   common.Hash
 	Timestamp *big.Int
 	Raw       types.Log // Blockchain specific contextual infos
 }
 
 // FilterTestSetName is a free log retrieval operation binding the contract event 0x9aa97cf26d841d503a2834c9a4e166b8c17f3cd001238a2bfd891c0138b3a80f.
 //
-// Solidity: event TestSetName(string oldName, string newName, uint256 timestamp)
-func (_TestFilter *TestFilterFilterer) FilterTestSetName(opts *bind.FilterOpts) (*TestFilterTestSetNameIterator, error) {
+// Solidity: event TestSetName(string indexed oldName, string indexed newName, uint256 indexed timestamp)
+func (_TestFilter *TestFilterFilterer) FilterTestSetName(opts *bind.FilterOpts, oldName []string, newName []string, timestamp []*big.Int) (*TestFilterTestSetNameIterator, error) {
 
-	logs, sub, err := _TestFilter.contract.FilterLogs(opts, "TestSetName")
+	var oldNameRule []interface{}
+	for _, oldNameItem := range oldName {
+		oldNameRule = append(oldNameRule, oldNameItem)
+	}
+	var newNameRule []interface{}
+	for _, newNameItem := range newName {
+		newNameRule = append(newNameRule, newNameItem)
+	}
+	var timestampRule []interface{}
+	for _, timestampItem := range timestamp {
+		timestampRule = append(timestampRule, timestampItem)
+	}
+
+	logs, sub, err := _TestFilter.contract.FilterLogs(opts, "TestSetName", oldNameRule, newNameRule, timestampRule)
 	if err != nil {
 		return nil, err
 	}
@@ -750,10 +789,23 @@ func (_TestFilter *TestFilterFilterer) FilterTestSetName(opts *bind.FilterOpts) 
 
 // WatchTestSetName is a free log subscription operation binding the contract event 0x9aa97cf26d841d503a2834c9a4e166b8c17f3cd001238a2bfd891c0138b3a80f.
 //
-// Solidity: event TestSetName(string oldName, string newName, uint256 timestamp)
-func (_TestFilter *TestFilterFilterer) WatchTestSetName(opts *bind.WatchOpts, sink chan<- *TestFilterTestSetName) (event.Subscription, error) {
+// Solidity: event TestSetName(string indexed oldName, string indexed newName, uint256 indexed timestamp)
+func (_TestFilter *TestFilterFilterer) WatchTestSetName(opts *bind.WatchOpts, sink chan<- *TestFilterTestSetName, oldName []string, newName []string, timestamp []*big.Int) (event.Subscription, error) {
 
-	logs, sub, err := _TestFilter.contract.WatchLogs(opts, "TestSetName")
+	var oldNameRule []interface{}
+	for _, oldNameItem := range oldName {
+		oldNameRule = append(oldNameRule, oldNameItem)
+	}
+	var newNameRule []interface{}
+	for _, newNameItem := range newName {
+		newNameRule = append(newNameRule, newNameItem)
+	}
+	var timestampRule []interface{}
+	for _, timestampItem := range timestamp {
+		timestampRule = append(timestampRule, timestampItem)
+	}
+
+	logs, sub, err := _TestFilter.contract.WatchLogs(opts, "TestSetName", oldNameRule, newNameRule, timestampRule)
 	if err != nil {
 		return nil, err
 	}
@@ -787,7 +839,7 @@ func (_TestFilter *TestFilterFilterer) WatchTestSetName(opts *bind.WatchOpts, si
 
 // ParseTestSetName is a log parse operation binding the contract event 0x9aa97cf26d841d503a2834c9a4e166b8c17f3cd001238a2bfd891c0138b3a80f.
 //
-// Solidity: event TestSetName(string oldName, string newName, uint256 timestamp)
+// Solidity: event TestSetName(string indexed oldName, string indexed newName, uint256 indexed timestamp)
 func (_TestFilter *TestFilterFilterer) ParseTestSetName(log types.Log) (*TestFilterTestSetName, error) {
 	event := new(TestFilterTestSetName)
 	if err := _TestFilter.contract.UnpackLog(event, "TestSetName", log); err != nil {

@@ -94,6 +94,7 @@ func invokeFunc(c *gin.Context) {
 
 func getTopics(c *gin.Context) {
 	funcName := c.Query("funcName")
+	fmt.Println("funcName :" + funcName)
 	if funcName == "" {
 		TestGetAge := crypto.Keccak256Hash([]byte("TestGetAge(string,uint256)"))
 		TestGetName := crypto.Keccak256Hash([]byte("TestGetName(string,uint256)"))
@@ -104,6 +105,7 @@ func getTopics(c *gin.Context) {
 			"TestGetName": TestGetName.String(),
 			"TestSetAge":  TestSetAge.String(),
 			"TestSetName": TestSetName.String(),
+			"oldName":     crypto.Keccak256Hash([]byte("")),
 		})
 	} else {
 		_funcName := crypto.Keccak256Hash([]byte(funcName))
