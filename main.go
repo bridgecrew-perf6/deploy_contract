@@ -43,9 +43,10 @@ func setParams(c *gin.Context) {
 func createContract(c *gin.Context) {
 	fmt.Println(URL_)
 	fmt.Println(private_)
-	contractAddr := TestFilter.DeployFilterContract(URL_, private_)
+	txhash, contractAddr := TestFilter.DeployFilterContract(URL_, private_)
 	c.JSON(200, gin.H{
 		"contractAddr": contractAddr,
+		"txhash":       txhash,
 	})
 }
 

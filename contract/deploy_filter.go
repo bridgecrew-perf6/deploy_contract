@@ -18,7 +18,7 @@ import (
 	"time"
 )
 
-func DeployFilterContract(URL string, private string) string {
+func DeployFilterContract(URL string, private string) (string,string) {
 
 	testContractAbi, err := ReadAll("contract/TestFilter_sol_TestFilter.abi")
 	_checkErr(err)
@@ -50,7 +50,7 @@ func DeployFilterContract(URL string, private string) string {
 		panic("tx error!")
 	}
 	fmt.Println(txReceipt.ContractAddress.String())
-	return txReceipt.ContractAddress.String()
+	return txReceipt.ContractAddress.String(),rawTx.Hash().String()
 
 }
 func _newDeployEvmContract(opts *bind.TransactOpts, code []byte, jsonABI string, params ...interface{}) (*types.Transaction, error) {
