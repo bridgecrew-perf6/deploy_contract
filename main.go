@@ -24,6 +24,7 @@ func main() {
 	r.GET("/invoke", invokeFunc)
 	r.GET("/getTopics", getTopics)
 	r.GET("/ongTransfer", ongTransfer)
+	r.GET("/getPendingHash", getPendingHash)
 	err := r.Run()
 	if err != nil {
 		return
@@ -43,7 +44,7 @@ func setParams(c *gin.Context) {
 func createContract(c *gin.Context) {
 	fmt.Println(URL_)
 	fmt.Println(private_)
-	txhash, contractAddr := TestFilter.DeployFilterContract(URL_, private_)
+	contractAddr, txhash := TestFilter.DeployFilterContract(URL_, private_)
 	c.JSON(200, gin.H{
 		"contractAddr": contractAddr,
 		"txhash":       txhash,
@@ -182,6 +183,44 @@ func ongTransfer(c *gin.Context) {
 	})
 }
 
+func getPendingHash(c *gin.Context) {
+	toAddr := c.Query("addr")
+	// 构建一个私链对象
+	ethClient := TestFilter.GetEthClient(URL_)
+	//查chainIdz
+	chainId, err := ethClient.ChainID(context.Background())
+	_checkErr(err)
+	testPrivateKey, err := crypto.HexToECDSA(private_)
+	_checkErr(err)
+	addr := crypto.PubkeyToAddress(testPrivateKey.PublicKey)
+	// 查nonce值
+	nonce, err := ethClient.PendingNonceAt(context.Background(), addr)
+	_checkErr(err)
+	log.Printf("nonce: %d", nonce)
+	_to := common.HexToAddress(toAddr)
+	gasPrice := big.NewInt(500000000000)
+	rawTx := types.NewTransaction(nonce, _to, big.NewInt(1), 250000, gasPrice, nil)
+	signer := types.NewEIP155Signer(chainId) //big.NewInt(1)//当前入参链id
+	key, err := crypto.HexToECDSA(private_)
+	_checkErr(err)
+	//对交易对象做签名 0交易对象  1签名类型types.NewEIP155Signer(chainId)  2签名账户私钥
+	sigTransaction, err := types.SignTx(rawTx, signer, key)
+	_checkErr(err)
+	//fmt.Println("52ln rawTx: ", sigTransaction)
+	err = ethClient.SendTransaction(context.Background(), sigTransaction)
+	_checkErr(err)
+	log.Printf("tx hash(evm): %s", sigTransaction.Hash())
+	//rec, err := TestFilter.GetTransferInfoByHash(URL_, sigTransaction.Hash())
+	//_checkErr(err)
+	result := ""
+	//if rec.Status != 1 {
+	//	result = "fail,tx status = 0"
+	//}
+	result = sigTransaction.Hash().String()
+	c.JSON(200, gin.H{
+		"result": result,
+	})
+}
 func _checkErr(err error) {
 	if err != nil {
 		panic(err)
